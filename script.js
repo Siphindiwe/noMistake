@@ -67,7 +67,6 @@ function loadQuestion() {
 
   const q = quizQuestions[currentQuestion]
   questionText.textContent = q.question
-
   questionNumber.textContent = `Question ${currentQuestion + 1} of ${
     quizQuestions.length
   }`
@@ -148,29 +147,45 @@ function autoFailQuestion() {
 }
 
 function showFinalScore() {
-  quizContainer.style.display = 'none'
-  const scoreboard = document.getElementById('scoreboard')
-  scoreboard.style.display = 'block'
+  questionText.textContent = `Quiz Complete! Final Score: ${score}/${quizQuestions.length}`
+  questionNumber.textContent = ''
+  optionsContainer.innerHTML = ''
+  timerDisplay.textContent = ''
+  progressBar.style.width = '100%'
 
-  const finalScoreDisplay = document.getElementById('final-score')
-  finalScoreDisplay.textContent = `You scored ${score} out of ${quizQuestions.length}`
+  nextBtn.style.display = 'none'
 
   saveScore(score, quizQuestions.length, selectedTopic)
+
   displayScoreboard()
 
   const restartBtn = document.createElement('button')
-  restartBtn.textContent = 'Restart Quiz'
+  restartBtn.textContent = 'Restart'
   restartBtn.className = 'next-btn'
   restartBtn.onclick = () => {
-    scoreboard.style.display = 'none'
     startScreen.style.display = 'block'
+    quizContainer.style.display = 'none'
+    document.getElementById('scoreboard').style.display = 'none'
+    restartBtn.remove()
 
     categoryCards.forEach((c) => c.classList.remove('selected'))
     selectedTopic = ''
     startBtn.disabled = true
   }
+  quizContainer.appendChild(restartBtn)
+}
 
-  scoreboard.appendChild(restartBtn)
+function saveScore(score, totalQuestions, topic) {
+  const scores = JSON.parse(localStorage.getItem('quizScores')) || []
+
+  scores.push({
+    score: score,
+    total: totalQuestions,
+    topic: topic,
+    date: new Date().toISOString(),
+  })
+
+  localStorage.setItem('quizScores', JSON.stringify(scores))
 }
 
 function displayScoreboard() {
