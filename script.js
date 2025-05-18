@@ -19,9 +19,6 @@ const nextBtn = document.getElementById('next-btn')
 const timerDisplay = document.getElementById('timer')
 const progressBar = document.querySelector('.progress-bar')
 const quizTopicDisplay = document.getElementById('quiz-topic')
-const leaderboard = document.getElementById('leaderboard')
-const leaderboardList = document.getElementById('leaderboard-list')
-const backToStartBtn = document.getElementById('back-to-start')
 
 fetch('quiz-data.json')
   .then((response) => response.json())
@@ -158,39 +155,71 @@ function showFinalScore() {
 
   nextBtn.style.display = 'none'
 
-  saveScore(selectedTopic, score)
-  showLeaderboard()
+  saveScore(score, quizQuestions.length, selectedTopic)
+
+  displayScoreboard()
+
+  const restartBtn = document.createElement('button')
+  restartBtn.textContent = 'Restart'
+  restartBtn.className = 'next-btn'
+  restartBtn.onclick = () => {
+    startScreen.style.display = 'block'
+    quizContainer.style.display = 'none'
+    document.getElementById('scoreboard').style.display = 'none'
+    restartBtn.remove()
+
+    categoryCards.forEach((c) => c.classList.remove('selected'))
+    selectedTopic = ''
+    startBtn.disabled = true
+  }
+  quizContainer.appendChild(restartBtn)
 }
 
-function saveScore(topic, score) {
-  const playerName =
-    prompt('Enter your name for the leaderboard:') || 'Anonymous'
-  const savedScores = JSON.parse(localStorage.getItem('leaderboard')) || []
+function saveScore(score, totalQuestions, topic) {
+  const scores = JSON.parse(localStorage.getItem('quizScores')) || []
 
-  savedScores.push({ name: playerName, topic, score })
-  savedScores.sort((a, b) => b.score - a.score)
-  localStorage.setItem('leaderboard', JSON.stringify(savedScores))
-}
-
-function showLeaderboard() {
-  quizContainer.style.display = 'none'
-  leaderboard.style.display = 'block'
-  leaderboardList.innerHTML = ''
-
-  const savedScores = JSON.parse(localStorage.getItem('leaderboard')) || []
-  savedScores.forEach((entry, index) => {
-    const li = document.createElement('li')
-    li.textContent = `${index + 1}. ${entry.name} (${entry.topic}) - ${
-      entry.score
-    }`
-    leaderboardList.appendChild(li)
+  scores.push({
+    score: score,
+    total: totalQuestions,
+    topic: topic,
+    date: new Date().toISOString(),
   })
+
+  localStorage.setItem('quizScores', JSON.stringify(scores))
 }
 
-backToStartBtn.onclick = () => {
-  leaderboard.style.display = 'none'
-  startScreen.style.display = 'block'
-  categoryCards.forEach((c) => c.classList.remove('selected'))
-  selectedTopic = ''
-  startBtn.disabled = true
+function displayScoreboard() {
+  const scoreboard = document.getElementById('scoreboard')
+  const entriesContainer = document.getElementById('scoreboard-entries')
+
+  const scores = JSON.parse(localStorage.getItem('quizScores')) || []
+
+  const sortedScores = scores.sort((a, b) => {
+    const percentageA = (a.score / a.total) * 100
+    const percentageB = (b.score / b.total) * 100
+    return percentageB - percentageA
+  })
+
+  entriesContainer.innerHTML = ''
+
+  sortedScores.forEach((entry, index) => {
+    const entryElement = document.createElement('div')
+    entryElement.className = 'scoreboard-entry'
+
+    const percentage = Math.round((entry.score / entry.total) * 100)
+
+    entryElement.innerHTML = `
+      <div>
+        <span class="scoreboard-rank">${index + 1}.</span>
+        <span class="scoreboard-score">${entry.score}/${
+      entry.total
+    } (${percentage}%)</span>
+      </div>
+      <div class="scoreboard-topic">${entry.topic}</div>
+    `
+
+    entriesContainer.appendChild(entryElement)
+  })
+
+  scoreboard.style.display = 'block'
 }

@@ -171,37 +171,46 @@ body {
   background: #4caf50;
   border-radius: 5px;
 }
-#leaderboard {
+
+#scoreboard {
   background-color: #ffffff;
-  padding: 40px;
+  padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 90%;
   max-width: 600px;
-  margin: auto;
+  margin-top: 20px;
 }
 
-#leaderboard h2 {
+#scoreboard h2 {
   font-size: 24px;
   color: #1d2d44;
   margin-bottom: 20px;
 }
 
-#leaderboard-list {
-  list-style: none;
-  padding: 0;
-  text-align: left;
-  max-height: 300px;
-  overflow-y: auto;
-  margin-bottom: 20px;
+.scoreboard-entry {
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #f4f5f9;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-#leaderboard-list li {
-  padding: 10px;
-  background-color: #f4f5f9;
-  margin-bottom: 8px;
-  border-radius: 6px;
-  font-size: 16px;
-  color: #333;
+.scoreboard-rank {
+  font-weight: bold;
+  color: #1a73e8;
+  margin-right: 10px;
+}
+
+.scoreboard-score {
+  font-weight: bold;
+  color: #1d2d44;
+}
+
+.scoreboard-topic {
+  color: #555;
+  font-style: italic;
 }
