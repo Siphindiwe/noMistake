@@ -38,7 +38,6 @@ categoryCards.forEach((card) => {
     startBtn.disabled = false
   })
 })
-
 startBtn.onclick = () => {
   if (!selectedTopic) return alert('Please select a category.')
 
@@ -55,7 +54,6 @@ startBtn.onclick = () => {
 
   loadQuestion()
 }
-
 function shuffleArray(array) {
   return [...array].sort(() => Math.random() - 0.5)
 }
