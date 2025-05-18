@@ -6,6 +6,12 @@ let timer
 let timeLeft = 15
 let selectedTopic = ''
 
+let playerName = ''
+const nameScreen = document.getElementById('name-screen')
+const nameInput = document.getElementById('player-name')
+const nameSubmitBtn = document.getElementById('name-submit')
+const displayName = document.getElementById('display-name')
+
 const startScreen = document.getElementById('start-screen')
 const quizContainer = document.getElementById('quiz-container')
 const startBtn = document.getElementById('start-btn')
@@ -187,18 +193,7 @@ function saveScore(score, totalQuestions, topic) {
 }
 
 function displayScoreboard() {
-  const scoreboard = document.getElementById('scoreboard')
-  const entriesContainer = document.getElementById('scoreboard-entries')
-
-  const scores = JSON.parse(localStorage.getItem('quizScores')) || []
-
-  const sortedScores = scores.sort((a, b) => {
-    const percentageA = (a.score / a.total) * 100
-    const percentageB = (b.score / b.total) * 100
-    return percentageB - percentageA
-  })
-
-  entriesContainer.innerHTML = ''
+  // ... existing code ...
 
   sortedScores.forEach((entry, index) => {
     const entryElement = document.createElement('div')
@@ -209,6 +204,7 @@ function displayScoreboard() {
     entryElement.innerHTML = `
       <div>
         <span class="scoreboard-rank">${index + 1}.</span>
+        <span class="scoreboard-name">${entry.name || 'Anonymous'}</span>
         <span class="scoreboard-score">${entry.score}/${
       entry.total
     } (${percentage}%)</span>
@@ -220,4 +216,16 @@ function displayScoreboard() {
   })
 
   scoreboard.style.display = 'block'
+}
+
+nameSubmitBtn.onclick = () => {
+  playerName = nameInput.value.trim()
+  if (!playerName) {
+    alert('Please enter your name to continue.')
+    return
+  }
+
+  displayName.textContent = playerName
+  nameScreen.style.display = 'none'
+  startScreen.style.display = 'block'
 }

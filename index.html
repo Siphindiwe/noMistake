@@ -7,8 +7,14 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="start-screen">
+    <div id="name-screen">
+      <h2>Enter Your Name</h2>
+      <input type="text" id="player-name" placeholder="Your name..." />
+      <button id="name-submit">Continue</button>
+    </div>
+    <div id="start-screen" style="display: none">
       <h2>Pick Categories</h2>
+      <p class="welcome-message">Welcome, <span id="display-name"></span>!</p>
       <div class="categories-container">
         <div class="category-card" data-topic="Computer Fundamentals">
           Computer Fundamentals

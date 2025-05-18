@@ -238,3 +238,62 @@ body {
   gap: 12px;
   align-items: stretch;
 }
+
+/* Add these styles to your existing CSS file */
+
+#name-screen {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+#name-screen h2 {
+  font-size: 24px;
+  color: #1d2d44;
+  margin-bottom: 30px;
+}
+
+#player-name {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease;
+}
+
+#player-name:focus {
+  outline: none;
+  border-color: #1a73e8;
+}
+
+#name-submit {
+  padding: 12px 30px;
+  font-size: 16px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#name-submit:hover {
+  background-color: #1557b0;
+}
+
+.welcome-message {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+#display-name {
+  font-weight: bold;
+  color: #1a73e8;
+}
